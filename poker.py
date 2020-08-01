@@ -1,5 +1,15 @@
+import random
+
+deck = [r+s for r in '23456789TJQWA' for s in 'SHDC']
+
+
+def deal(num_of_hands, n=5):
+    random.shuffle(deck)
+    return [deck[n*i:n*(i+1)] for i in range(num_of_hands)]
+
+
 def poker(hands):
-    return allmax(hands, key=hand_rank)
+    return allmax(hands, key=hand_ranks)
 
 
 def allmax(iter, key=None):
@@ -14,7 +24,7 @@ def allmax(iter, key=None):
     return result
 
 
-def hand_rank(hand):
+def hand_ranks(hand):
     ranks = card_ranks(hand)
     if straight(ranks) and flush(hand):
         return (8, max(ranks))
@@ -32,7 +42,7 @@ def hand_rank(hand):
         return (2, two_pair(ranks), ranks)
     elif kind(2, ranks):
         return (1, kind(2, ranks), ranks)
-    else: 
+    else:
         return (0, ranks)
 
 
@@ -88,7 +98,7 @@ def test():
     assert poker([fk, fk]) == fk
     assert poker([sf]) == sf
     assert poker([sf] + 20*[fh]) == sf
-    assert hand_rank(sf) == (8, 8)
-    assert hand_rank(fk) == (7, 10, 8)
-    assert hand_rank(fh) == (6, 13, 8)
+    assert hand_ranks(sf) == (8, 8)
+    assert hand_ranks(fk) == (7, 10, 8)
+    assert hand_ranks(fh) == (6, 13, 8)
     return "test pass"
