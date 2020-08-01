@@ -49,7 +49,7 @@ def hand_ranks(hand):
 def card_ranks(cards):
     ranks = ["--23456789TJQKA".index(r) for r, s in cards]
     ranks.sort(reverse=True)
-    return [5, 4, 3, 2, 1] if (ranks == [14, 5, 3, 2]) else ranks
+    return [5, 4, 3, 2, 1] if (ranks == [14, 5, 4, 3, 2]) else ranks
 
 
 def straight(ranks):
@@ -90,15 +90,18 @@ def test():
     assert card_ranks(fk) == [10, 10, 10, 10, 8]
     assert card_ranks(a_to_5_straight) == [5, 4, 3, 2, 1]
     assert card_ranks(a_high) == [14, 7, 4, 3, 2]
-    assert card_ranks(fh) == [8, 8, 8, 13, 13]
+    assert card_ranks(fh) == [13, 13, 8, 8, 8]
     assert two_pair(tpranks) == (12, 9)
     assert kind(4, fkranks) == 10
-    assert poker([sf, fk, fh]) == sf
-    assert poker([fk, fh]) == fk
-    assert poker([fk, fk]) == fk
-    assert poker([sf]) == sf
-    assert poker([sf] + 20*[fh]) == sf
+    assert poker([sf, fk, fh]) == [sf]
+    assert poker([fk, fh]) == [fk]
+    assert poker([fk, fk]) == [fk, fk]
+    assert poker([sf]) == [sf]
+    assert poker([sf] + 20*[fh]) == [sf]
     assert hand_ranks(sf) == (8, 8)
     assert hand_ranks(fk) == (7, 10, 8)
-    assert hand_ranks(fh) == (6, 13, 8)
+    assert hand_ranks(fh) == (6, 8, 13)
     return "test pass"
+
+
+print(test())
